@@ -37,6 +37,7 @@ def record_webhook_event(
             {
                 "stripe_event_id": stripe_event_id,
                 "event_type": event_type,
+                "status":"processing",
             }
         )
         .execute()
