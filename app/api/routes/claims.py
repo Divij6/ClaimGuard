@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from app.schemas.claims import ClaimCreate, ClaimResponse
-from app.services.claim_service import create_claim
 from app.services.claim_service import create_claim, get_claim, get_claims
 from typing import List
 router = APIRouter()
