@@ -13,13 +13,25 @@ def event_already_processed(stripe_event_id: str) -> bool:
     if not response.data:
         return False
 
-    return response.data[0]["status"] == "processed"
+    return response.data[0]["status"] in {"processed", "ignored"}
 
 def mark_webhook_processed(stripe_event_id: str):
     response = (
         supabase
         .table("webhook_events")
         .update({"status": "processed"})
+        .eq("stripe_event_id", stripe_event_id)
+        .execute()
+    )
+
+    return response.data[0]
+
+
+def mark_webhook_ignored(stripe_event_id: str):
+    response = (
+        supabase
+        .table("webhook_events")
+        .update({"status": "ignored"})
         .eq("stripe_event_id", stripe_event_id)
         .execute()
     )

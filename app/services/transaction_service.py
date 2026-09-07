@@ -42,3 +42,34 @@ def create_transaction(
             )
 
         raise
+
+
+def get_transaction(transaction_id: str):
+    response = (
+        supabase
+        .table("transactions")
+        .select("*")
+        .eq("id", transaction_id)
+        .execute()
+    )
+
+    if not response.data:
+        raise ClaimGuardException(
+            code="TRANSACTION_NOT_FOUND",
+            message="Transaction not found.",
+            status_code=404,
+        )
+
+    return response.data[0]
+
+
+def get_transactions():
+    response = (
+        supabase
+        .table("transactions")
+        .select("*")
+        .order("transaction_date", desc=True)
+        .execute()
+    )
+
+    return response.data
