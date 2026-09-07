@@ -26,3 +26,11 @@ class TransactionResponse(BaseModel):
     currency: str
     transaction_date: datetime
     created_at: datetime
+
+
+class EligibilityResponse(BaseModel):
+    transaction_id: str = Field(serialization_alias="transactionId")
+    eligible: bool
+    benefit_type: str | None = Field(serialization_alias="benefitType")
+    eligible_amount: Decimal = Field(serialization_alias="eligibleAmount")
+    reason: str
